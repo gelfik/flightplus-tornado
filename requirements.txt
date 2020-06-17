@@ -15,4 +15,4 @@ ssh-import-id==5.5
 tornado==6.0.3
 tornado-jinja2==0.2.4
 unattended-upgrades==0.1
-urllib3==1.13.1
+urllib3==1.24.2
