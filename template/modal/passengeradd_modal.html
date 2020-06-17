@@ -1,0 +1,76 @@
+<div class="modal fade" id="AddPassengerModal" tabindex="-1" role="dialog" aria-labelledby="AddPassengerModalTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="top: 56px;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AddPassengerModalTitle">Добавление пассажира</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="col-xs-12 col-lg-4">
+                        <label for="first_name">Фамилия*:</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name" required>
+                    </div>
+                    <div class="col-xs-12 col-lg-4">
+                        <label for="last_name">Имя*:</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name" required>
+                    </div>
+                    <div class="col-xs-12 col-lg-4">
+                        <label for="patronymic">Отчество:</label>
+                        <input type="text" class="form-control" id="patronymic" name="patronymic">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-xs-12 col-lg-6">
+                        <label for="id_gender">Пол*:</label>
+                        <select class="form-control" size="1" id="id_gender" name="id_gender" required>
+                            <option value="1">Мужской</option>
+                            <option value="2">Женский</option>
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-lg-6">
+                        <label for="birthday">Дата рождения*:</label>
+                        <input type="date" class="form-control" id="birthday" name="birthday" max="{% now 'utc', '%Y-%m-%d' %}" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-xs-12 col-lg-6">
+                        <label for="passenger_email">Email*:</label>
+                        <input type="email" class="form-control" id="passenger_email" name="passenger_email" required>
+
+                    </div>
+                    <div class="col-xs-12 col-lg-6">
+                        <label for="phone">Телефон*:</label>
+                        <input type="text" class="form-control" id="phone" name="phone"
+                               pattern="\+7\s?[\(]{0,1}9[0-9]{2}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-xs-12 col-lg-4">
+                        <label for="id_document_type">Тип документа*:</label>
+                        <select class="form-control" size="1" id="id_document_type" name="id_document_type" required>
+                            {% for item in arguments.documet_type %}
+                            <option value="{{item['id']}}">{{item['document_type']}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-lg-4">
+                        <label for="document_number">Серия и номер документа*:</label>
+                        <input type="text" class="form-control" id="document_number" name="document_number" required>
+                    </div>
+                    <div class="col-xs-12 col-lg-4">
+                        <label for="valid_date">Дата действия:</label>
+                        <input type="date" min="{% now 'utc', '%Y-%m-%d' %}" class="form-control" id="valid_date" name="valid_date">
+                    </div>
+                </div>
+                <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+                    <button class="btn btn-dark" type="submit" onClick="apiv1_addPassenger();">Добавить</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

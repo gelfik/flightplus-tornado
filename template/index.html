@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta charset="utf-8">
+    <meta name="theme-color" content="#e8eaec">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <title>{{arguments.title}}</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="../static/css/stepper.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="../static/ico/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../static/ico/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../static/ico/favicon-16x16.png">
+    <link rel="manifest" href="../static/ico/site.webmanifest">
+</head>
+
+<body style="background-color:#e8eaec">
+<div class="bg-dark header d-print-none" style="z-index: 10000" id="navbar">
+    <nav class="container navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">FlightPlus</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" style="justify-content: flex-end;">
+            <!--<ul class="navbar-nav mr-auto">-->
+            <ul class="nav bg-dark">
+                <li class="nav-item">
+                    <a class="nav-link text-white" href="/search">Поиск маршрута</a>
+                </li>
+                <li class="nav-item dropdown">
+                    {% if arguments.user_inf is defined %}
+                    <a class="nav-link dropdown-toggle" style="color:white" data-toggle="dropdown" role="button"
+                       aria-haspopup="true"
+                       aria-expanded="false">{{ arguments.user_inf['user_name'] }} {{ arguments.user_inf['user_surname']
+                        }}</a>
+                    <div class="dropdown-menu">
+                        {% if arguments.user_inf['id_users_lvl']>0 %}
+                        <!--<span class="dropdown-item-text">Должность: {{arguments.user_inf['lvl_name']}}</span>-->
+                        <!--<div class="dropdown-divider"><br></div>-->
+                        <!--<span class="dropdown-item-text h5">Админ-панель</span>-->
+                        <a class="dropdown-item" href="/admin/routes">Маршруты</a>
+                        <a class="dropdown-item" href="/admin/airports">Аэропорты</a>
+                        <a class="dropdown-item" href="/admin/airplanes">Самолеты</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/profile">Профиль</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="/passenger">Пассажиры</a>
+                        <a class="dropdown-item" href="/orders">Заказы</a>
+                        {% else %}
+                        <!--<span class="dropdown-item-text h5">Личный кабинет</span>-->
+                        <a class="dropdown-item" href="/profile">Профиль</a>
+                        <a class="dropdown-item" href="/passenger">Пассажиры</a>
+                        <a class="dropdown-item" href="/orders">Заказы</a>
+                        {% endif %}
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item h6" href="/logout">Выйти</a>
+                    </div>
+                    {% else %}
+                    <a class="nav-link dropdown-toggle" style="color:white" data-toggle="dropdown" role="button"
+                       aria-haspopup="true"
+                       aria-expanded="false">Личный кабинет</a>
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" data-toggle="modal" data-target="#AuthModal" onclick="closenavbar();"
+                           href="">Авторизация</a>
+                        <a class="dropdown-item" data-toggle="modal" data-target="#RegModal" onclick="closenavbar();"
+                           href="">Регистрация</a>
+                    </div>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+
+<div class="container content" style="margin-top: 56px">
+    {% block content %}{% endblock %}
+</div>
+
+{% if arguments.user_inf is not defined %}
+<!-- Modal -->
+{% include 'modal/login_modal.html' %}
+{% include 'modal/register_modal.html' %}
+{% endif %}
+
+<footer class="footer bottom bg-dark text-white d-print-none">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-6">
+                <h5 class="-title">КОМПАНИЯ</h5>
+                <ul class="-list">
+                    <li class="-item"><a class="-link" href="mailto:help@flightplus.ru">Связаться с нами</a></li>
+                    <!--<li class="-item"><a class="-link" href="/company">О компании</a></li>-->
+                    <!--<li class="-item"><a class="-link" href="/terms-of-service">Соглашение</a></li>-->
+                </ul>
+            </div>
+            <div class="col-6">
+                <h5 class="-title">ПРАВА</h5>
+                <ul class="-list">
+                    <li class="-item -link">© {% now 'utc', '%Y' %} Авиакомпания «FlightPlus»</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+        integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+        integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+        crossorigin="anonymous"></script>
+
+<script src="../static/js/js.js"></script>
+<script src="../static/js/jquery.maskedinput.min.js"></script>
+<script src="../static/js/mask.js"></script>
+<script src="../static/js/stepper.min.js"></script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript" >
+   (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+   m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+   (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
+
+   ym(62709001, "init", {
+        clickmap:true,
+        trackLinks:true,
+        accurateTrackBounce:true,
+        webvisor:true
+   });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/62709001" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+</body>
+</html>

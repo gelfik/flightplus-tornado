@@ -1,0 +1,204 @@
+{% extends "index.html" %}
+{% block content %}
+{% if arguments.user_inf is defined %}
+<div style="margin:20px;">
+    <div class="form-row" id="button_add_group">
+        {% if arguments.country_list is defined and arguments.city_list is defined %}
+        <div class="col-xs-12 col-lg-4">
+            <button style="width:100%" class="btn btn-dark" data-toggle="modal" data-target="#AdminCountryAddModal"
+                    onclick="closenavbar();">
+                Добавить страну!
+            </button>
+        </div>
+        <div class="col-xs-12 col-lg-4">
+            <button style="width:100%" class="btn btn-dark" data-toggle="modal" data-target="#AdminCityAddModal"
+                    onclick="closenavbar();">
+                Добавить город!
+            </button>
+        </div>
+        <div class="col-xs-12 col-lg-4">
+            <button style="width:100%" class="btn btn-dark" data-toggle="modal" data-target="#AdminAirportAddModal"
+                    onclick="closenavbar();">
+                Добавить аэропорт!
+            </button>
+        </div>
+        {% elif arguments.country_list is defined %}
+        <div class="col-xs-12 col-lg-6">
+            <button style="width:100%" class="btn btn-dark" data-toggle="modal" data-target="#AdminCountryAddModal"
+                    onclick="closenavbar();">
+                Добавить страну!
+            </button>
+        </div>
+        <div class="col-xs-12 col-lg-6">
+            <button style="width:100%" class="btn btn-dark" data-toggle="modal" data-target="#AdminCityAddModal"
+                    onclick="closenavbar();">
+                Добавить город!
+            </button>
+        </div>
+        {% else %}
+        <div class="col-xs-12 col-lg-12">
+            <button style="width:100%" class="btn btn-dark" data-toggle="modal" data-target="#AdminCountryAddModal"
+                    onclick="closenavbar();">
+                Добавить страну!
+            </button>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 15px; margin-bottom: 15px; border-color:#cecfd3; position:relative">
+    <div style="margin:15px;">
+        {% if arguments.country_list is defined and arguments.city_list is defined and arguments.airport_list is defined %}
+        <div class="form-row" id="content_list">
+            <div class="col-xs-12 col-lg-4">
+                <div class="form-row align-items-center mt-3 justify-content-center">
+                    <h3 style="text-align: center">Страны</h3>
+                    <select class="form-control" size="20" id="country_selector" name="country_selector"
+                            onchange="getCityList_main();" required>
+                        {% set global_inf = namespace() %}
+                        {% for i in arguments.country_list %}
+                        {% if loop.index == 1 %}
+                        {% set global_inf.country = i['id'] %}
+                        <option selected value="{{i['id']}}">{{i['country_name']}} [{{i['abbreviation']}}]</option>
+                        {% else %}
+                        <option value="{{i['id']}}">{{i['country_name']}} [{{i['abbreviation']}}]</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-row align-items-center mt-3 justify-content-center">
+                    <button class="btn btn-dark" type="button" onClick="apiv1_delcountry();">Удалить выбранную страну
+                    </button>
+                </div>
+                <hr>
+            </div>
+            <div class="col-xs-12 col-lg-4">
+                <div class="form-row align-items-center mt-3 justify-content-center">
+                    <h3 style="text-align: center">Города</h3>
+                    <select class="form-control" size="20" id="city_selector" name="city_selector"
+                            onchange="getAirportList_main();" required>
+                        {% set global_inf.city = arguments.city_list[0]['id'] %}
+                        {% set global_inf.city_first = 0 %}
+                        {% for i in arguments.city_list %}
+                        {% if global_inf.country==i['id_country'] and global_inf.city_first == 0 %}
+                        {% set global_inf.city_first = 1 %}
+                        <option selected value="{{i['id']}}">{{i['city_name']}} [{{i['abbreviation']}}]</option>
+                        {% elif global_inf.country==i['id_country'] %}
+                        <option value="{{i['id']}}">{{i['city_name']}} [{{i['abbreviation']}}]</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-row align-items-center mt-3 justify-content-center">
+                    <button class="btn btn-dark" type="button" onClick="apiv1_delcity();">Удалить выбранный город
+                    </button>
+                </div>
+                <hr>
+            </div>
+            <div class="col-xs-12 col-lg-4">
+                <div class="form-row align-items-center mt-3 justify-content-center">
+                    <h3 style="text-align: center">Аэропорты</h3>
+                    <select class="form-control" size="20" id="airport_selector" name="airport_selector" required>
+                        {% set global_inf.airport_first = 0 %}
+                        {% for i in arguments.airport_list %}
+                        {% if global_inf.country==i['id_country'] and global_inf.city==i['id_city'] and global_inf.airport_first==0 %}
+                        {% set global_inf.airport_first = 1 %}
+                        <option selected value="{{i['id']}}">{{i['airport_name']}} [{{i['abbreviation']}}]</option>
+                        {% elif global_inf.country==i['id_country'] and global_inf.city==i['id_city']%}
+                        <option value="{{i['id']}}">{{i['airport_name']}} [{{i['abbreviation']}}]</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-row align-items-center mt-3 justify-content-center">
+                    <button class="btn btn-dark" type="button" onClick="apiv1_delairport();">Удалить выбранный аэропорт
+                    </button>
+                </div>
+                <hr>
+            </div>
+        </div>
+        {% elif arguments.country_list is defined and arguments.city_list is defined %}
+        <div class="form-row" id="content_list">
+            <div class="col-xs-12 col-lg-6">
+                <div class="form-row align-items-center mt-3 justify-content-center">
+                    <h3 style="text-align: center">Страны</h3>
+                    <select class="form-control" size="20" id="country_selector" name="country_selector"
+                            onchange="getCityList_main();" required>
+                        {% for i in arguments.country_list %}
+                        {% if arguments.country_list[0]['id']==i['id'] %}
+                        <option selected value="{{i['id']}}">{{i['country_name']}} [{{i['abbreviation']}}]</option>
+                        {% else %}
+                        <option value="{{i['id']}}">{{i['country_name']}} [{{i['abbreviation']}}]</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-row align-items-center mt-3 justify-content-center">
+                    <button class="btn btn-dark" type="button" onClick="apiv1_delcountry();">Удалить выбранную страну
+                    </button>
+                </div>
+                <hr>
+            </div>
+            <div class="col-xs-12 col-lg-6">
+                <div class="form-row align-items-center mt-3 justify-content-center">
+                    <h3 style="text-align: center">Города</h3>
+                    <select class="form-control" size="20" id="city_selector" name="city_selector"
+                            onchange="getAirportList_main();" required>
+                        {% for i in arguments.city_list %}
+                        {% if arguments.country_list[0]['id']==i['id_country'] and arguments.city_list[0]['id']==i['id']%}
+                        <option selected value="{{i['id']}}">{{i['city_name']}} [{{i['abbreviation']}}]</option>
+                        {% elif arguments.country_list[0]['id']==i['id_country'] %}
+                        <option value="{{i['id']}}">{{i['city_name']}} [{{i['abbreviation']}}]</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-row align-items-center mt-3 justify-content-center">
+                    <button class="btn btn-dark" type="button" onClick="apiv1_delcity();">Удалить выбранный город
+                    </button>
+                </div>
+                <hr>
+            </div>
+        </div>
+        {% elif arguments.country_list is defined %}
+        <div class="form-row" id="content_list">
+            <div class="col-xs-12 col-lg-12">
+                <div class="form-row align-items-center mt-3 justify-content-center">
+                    <h3 style="text-align: center">Страны</h3>
+                    <select class="form-control" size="20" id="country_selector" name="country_selector"
+                            onchange="getCityList_main();" required>
+                        {% for i in arguments.country_list %}
+                        {% if arguments.country_list[0]['id']==i['id'] %}
+                        <option selected value="{{i['id']}}">{{i['country_name']}} [{{i['abbreviation']}}]</option>
+                        {% else %}
+                        <option value="{{i['id']}}">{{i['country_name']}} [{{i['abbreviation']}}]</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-row align-items-center mt-3 justify-content-center">
+                    <button class="btn btn-dark" type="button" onClick="apiv1_delcountry();">Удалить выбранную страну
+                    </button>
+                </div>
+                <hr>
+            </div>
+        </div>
+        {% else %}
+        <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+            <h3>Страны не найдены!</h3>
+        </div>
+        <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+            <button class="btn btn-dark" data-toggle="modal" data-target="#AdminCountryAddModal"
+                    onclick="closenavbar();">
+                Добавить страну!
+            </button>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% include 'admin/modal/admin_airport_modal.html' %}
+{% else %}
+Не Авторизирован
+{% endif %}
+{% endblock %}

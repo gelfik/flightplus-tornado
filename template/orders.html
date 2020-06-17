@@ -1,0 +1,56 @@
+{% extends "index.html" %}
+{% block content %}
+{% if arguments.orders is defined %}
+{% for item in arguments.orders %}
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 20px; margin-bottom: 20px;  border-color:#cecfd3; position:relative">
+    <div class="row align-items-center" style="margin: 10px;">
+        <div class="col-xs-12 col-lg-5">
+            <span style="color: #bbc0c4; font-size: 10pt">Направление</span>
+            <h6>{{item['country_from']}}, {{item['city_from']}}({{item['airport_from_abbr']}}) - {{item['country_to']}}, {{item['city_to']}}({{item['airport_to_abbr']}})</h6>
+        </div>
+        <div class="col-xs-12 col-lg-2">
+            <span style="color: #bbc0c4; font-size: 10pt">Вылет</span>
+            <h6>{{item['route_departure_date']|datetimeformat('%H:%M %d.%m.%Y')}}</h6>
+        </div>
+        <div class="col-xs-12 col-lg-2">
+            <span style="color: #bbc0c4; font-size: 10pt">Прилет</span>
+            <h6>{{item['route_arrival_date']|datetimeformat('%H:%M %d.%m.%Y')}}</h6>
+        </div>
+        <div class="col-xs-12 col-lg-3">
+            <button class="btn btn-dark" type="button" onclick="window.open('https://flightplus.ru/static/tickets/ticket-{{item['ticket_id']}}.pdf')">Сохранить билет!</button>
+        </div>
+    </div>
+    <div class="row align-items-center" style="margin: 10px;">
+        <div class="col-xs-12 col-lg-2">
+            <span style="color: #bbc0c4; font-size: 10pt">№ эл.билета</span>
+            <h6>{{item['ticket_id']}}</h6>
+        </div>
+        <div class="col-xs-12 col-lg-4">
+            <span style="color: #bbc0c4; font-size: 10pt">Пассажир</span>
+            <h6>{{item['user_data_first_name']}} {{item['user_data_last_name']}} {{item['user_data_patronymic']}}</h6>
+        </div>
+        <div class="col-xs-12 col-lg-1">
+            <span style="color: #bbc0c4; font-size: 10pt">Место</span>
+            <h6>{{item['place_number']}}</h6>
+        </div>
+        <div class="col-xs-12 col-lg-2">
+            <span style="color: #bbc0c4; font-size: 10pt">Цена</span>
+            <h6>{{item['final_price']}}р.</h6>
+        </div>
+        <div class="col-xs-12 col-lg-2">
+            <span style="color: #bbc0c4; font-size: 10pt">Дата покупки</span>
+            <h6>{{item['buy_time']|datetimeformat('%H:%M %d.%m.%Y')}}</h6>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 20px; margin-bottom: 20px;  border-color:#cecfd3; position:relative">
+    <div class="form-row align-items-center mt-3 justify-content-center">
+        <h3>Заказы не найдены!</h3>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

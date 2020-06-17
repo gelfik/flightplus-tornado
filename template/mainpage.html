@@ -1,0 +1,53 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 20px; margin-bottom: 20px;  border-color:#cecfd3; position:relative">
+    <form name="search" action="/search" method="post" enctype="multipart/form-data">
+        <div class="row align-items-center mobile-col" style="margin: 10px">
+            <div class="col-xs-12 col-lg-4">
+                <h6>Пункт отправления</h6>
+                <input class="form-control" type="search" name="query_to" id="query_to" placeholder="Пункт отправления"
+                       value="" autocomplete="off" required>
+                <ul class="dropdown-menu" id="search_result_to" style="width: 100%; overflow-x:hidden;"></ul>
+            </div>
+            <div class="col-xs-12 col-lg-4">
+                <h6>Пункт прибытия</h6>
+                <input class="form-control" type="search" name="query_from" id="query_from" placeholder="Пункт прибытия"
+                       value="" autocomplete="off" required>
+                <ul class="dropdown-menu" id="search_result_from" style="width: 100%; overflow-x:hidden;"></ul>
+            </div>
+            <div class="col-xs-12 col-lg-2 mobile-div" style="padding: 0">
+                <h6>Дата вылета</h6>
+                <input class="form-control" type="date" name="date_to" id="date_to" placeholder="Дата вылета"
+                       value="{% now 'utc', '%Y-%m-%d' %}"
+                       autocomplete="off" min="{% now 'utc', '%Y-%m-%d' %}" required>
+            </div>
+            <div class="col-xs-12 col-lg-2 align-self-end mobile-button">
+                <button class="btn btn-dark" type="submit">Найти маршрут</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div class="border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 20px; margin-bottom: 20px;  border-color:#cecfd3; position:relative">
+    <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <img src="https://aeronautica.online/wp-content/uploads/2019/09/Embraer-170-render-Embraer-new-livery-1920x800.jpg" class="d-block w-100">
+            </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</div>
+{% endblock %}

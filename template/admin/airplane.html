@@ -1,0 +1,71 @@
+{% extends "index.html" %}
+{% block content %}
+{% if arguments.user_inf is defined %}
+<div style="margin:20px;">
+    <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+        <button style="width:100%" class="btn btn-dark" data-toggle="modal" data-target="#AdminAirplaneAddModal"
+                onclick="closenavbar();">
+            Добавить самолет!
+        </button>
+    </div>
+</div>
+{% if arguments.airplane is defined %}
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 15px; margin-bottom: 15px; border-color:#cecfd3; position:relative">
+    <div style="margin: 15px">
+        <div class="table-responsive">
+            <table class="table table-striped align-items-center table-flush">
+                <thead class="thead-dark">
+                <tr>
+                    {% set passengernumber = namespace(value=1) %}
+                    <th class="text-center" scope="col">#</th>
+                    <th scope="col">Номер самолета</th>
+                    <th scope="col">Название</th>
+                    <th class="text-center" scope="col">Количество мест</th>
+                    <th scope="col">Статус</th>
+                    <th class="text-center" scope="col">Управление</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in arguments.airplane %}
+                <tr id="airplane_{{item['id']}}">
+                    <th class="text-center" scope="row">{{ passengernumber.value }}</th>
+                    {% set passengernumber.value = passengernumber.value + 1 %}
+                    <td>{{item['airplane_num']}}</td>
+                    <td>{{item['airplane_name']}}</td>
+                    <td class="text-center">{{ item['column_of_seats'] * item['row_of_seats'] }}</td>
+                    {% if item['status'] == 1 %}
+                    <td class="text-success">{{item['status_name']}}</td>
+                    <td class="text-center">
+                        <button class="btn btn-dark" type="button" onclick="apiv1_geteditairlaine({{item['id']}});">
+                            Изменить
+                        </button>
+                    </td>
+                    {% elif item['status'] == 2 %}
+                    <td class="text-warning">{{item['status_name']}}</td>
+                    <td class="text-center">
+                        <button class="btn btn-dark" type="button" onclick="apiv1_geteditairlaine({{item['id']}});">
+                            Изменить
+                        </button>
+                    </td>
+                    {% elif item['status'] == 3 %}
+                    <td class="text-danger">{{item['status_name']}}</td>
+                    <td class="text-center">
+                        <button class="btn btn-dark" type="button"
+                                onclick="apiv1_returnairplanebutton({{item['id']}});">Вернуть
+                        </button>
+                    </td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% include 'admin/modal/admin_airplane_mobal.html' %}
+{% else %}
+Не Авторизирован
+{% endif %}
+{% endblock %}

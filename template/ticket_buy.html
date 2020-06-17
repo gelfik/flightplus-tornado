@@ -1,0 +1,161 @@
+{% extends "index.html" %}
+{% block content %}
+{% if arguments.ticket is defined %}
+{% for ticket in arguments.ticket%}
+{% set t=ticket %}
+<div class="bg-white border shadow "
+     style="border-radius: 20px 20px 20px 20px; margin-top: 15px; margin-bottom: 15px; border-color:#cecfd3; position:relative;">
+    <div class="row align-items-center" style="margin: 10px;">
+        <div class="col-xs-12 col-lg-12 col-sm-12">
+            <span style="font-size: 22pt">Маршрутная квитанция электронного билета</span>
+        </div>
+    </div>
+    <div class="row align-items-center" style="margin: 10px;">
+        <div class="col-xs-6 col-lg-6 col-sm-6">
+            <div class="row align-items-center">
+                <div class="col-xs-12 col-lg-12 col-sm-12">
+                    <h5>{{t['user_data_first_name']}} {{t['user_data_last_name']}} {{t['user_data_patronymic']}}</h5>
+                </div>
+            </div>
+            <div class="row align-items-center ticket_col">
+                <div class="col-xs-6 col-lg-6 col-sm-6">
+                    <span style="color: #bbc0c4; font-size: 10pt">Документ</span>
+                    <h6>{{t['user_data_document_number']}}</h6>
+                </div>
+                <div class="col-xs-6 col-lg-6 col-sm-6">
+                    <span style="color: #bbc0c4; font-size: 10pt">№ эл.билета</span>
+                    <h6>{{t['ticket_id']}}</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-lg-6 col-sm-6">
+            <div class="row align-items-center">
+                <div class="col-xs-12 col-lg-12 col-sm-12">
+                    <span style="color: #bbc0c4; font-size: 10pt">Для регистрации в аэропорту необходимо предъявить паспорт</span>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-xs-12 col-lg-12 col-sm-12">
+                    <span style="color: #bbc0c4; font-size: 10pt">Для идентификации в контакт-центре необходимо сообщить № эл.билета</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row align-items-end" style="margin: 10px;">
+        <div class="col-xs-12 col-lg-12 col-sm-12">
+            <h4>МАРШРУТ СЛЕДОВАНИЯ</h4>
+        </div>
+        <div class="col-xs-12 col-lg-12 col-sm-12">
+            <span style="font-size: 10pt">Билеты действительны с даты вылета по дату прилёта, указанную в маршруте</span>
+        </div>
+    </div>
+    <hr>
+    <div class="row" style="margin: 10px;">
+        <div class="col-xs-12 col-lg-12 col-sm-12">
+            <div class="row align-items-center">
+                <div class="col-xs-12 col-lg-12 col-sm-12">
+                    <h6>{{t['city_from']}}-{{t['airport_to']}}</h6>
+                    <span style="font-size: 10pt">Рейс: <b>{{t['route_id']}}</b></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-lg-12 col-sm-12">
+            <div class="row align-items-center">
+                <div class="col-xs-5 col-lg-5 col-sm-5">
+                    <div class="row align-items-center">
+                        <div class="col-xs-6 col-lg-6 col-sm-6">
+                            <span style="font-size: 10pt">{{ t['route_departure_date']|datetimeformat('%d.%m.%Y') }}</span>
+                        </div>
+                        <div class="col-xs-6 col-lg-6 col-sm-6">
+                            <span style="font-size: 10pt">{{ t['route_arrival_date']|datetimeformat('%d.%m.%Y') }}</span>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-xs-6 col-lg-6 col-sm-6">
+                            <span><b style="font-size: 16pt">{{ t['route_departure_date']|datetimeformat('%H:%M') }}</b> {{t['airport_from_abbr']}}</span>
+                        </div>
+                        <div class="col-xs-6 col-lg-6 col-sm-6">
+                            <span>{{t['airport_to_abbr']}} <b style="font-size: 16pt">{{ t['route_arrival_date']|datetimeformat('%H:%M') }}</b></span>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-xs-6 col-lg-6 col-sm-6">
+                            <span style="font-size: 10pt">{{t['airport_from']}}</span>
+                        </div>
+                        <div class="col-xs-6 col-lg-6 col-sm-6">
+                            <span style="font-size: 10pt">{{t['airport_to']}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-3 col-lg-3 col-sm-3">
+                    <div class="row align-items-center">
+                        <div class="col-xs-12 col-lg-12 col-sm-12">
+                            <span style="font-size: 10pt">Место: <b
+                                    style="font-size: 12pt">{{t['place_number']}}</b></span>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-xs-12 col-lg-12 col-sm-12">
+                            <span style="font-size: 10pt">Тип ВС: {{t['airplane_name']}}</span>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-xs-12 col-lg-12 col-sm-12">
+                            <span style="font-size: 10pt">№ ВС: {{t['airplane_num']}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-xs-12 col-lg-12 col-sm-12">
+                    <span style="color: #bbc0c4; font-size: 10pt">Посадка заканчивается за 20 мин. до времени вылета</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <div class="row align-items-end" style="margin: 10px;">
+        <div class="col-xs-12 col-lg-12 col-sm-12">
+            <h4>СВЕДЕНИЯ ОБ ОПЛАТЕ</h4>
+        </div>
+    </div>
+    <div class="row" style="margin: 10px;">
+        <div class="col-xs-6 col-lg-6 col-sm-6">
+            <div class="row align-items-center">
+                <div class="col-xs-12 col-lg-12 col-sm-12">
+                    <span style="color: #bbc0c4; font-size: 10pt">Сумма платежа</span>
+                    <h5>RUB {{t['final_price']}}.00</h5>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-xs-12 col-lg-12 col-sm-12">
+                    <span style="color: #bbc0c4; font-size: 10pt">Включая НДС, 10%</span>
+                    <h6>RUB {{(t['final_price']*10)/100}}0</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-lg-6 col-sm-6">
+            <div class="row align-items-start">
+                <div class="col-xs-12 col-lg-12 col-sm-12">
+                    <span style="color: #bbc0c4; font-size: 10pt">Вид предоставляемой услуги</span>
+                    <h6>Авиаперевозка</h6>
+                </div>
+            </div>
+            <div class="row align-items-start">
+                <div class="col-xs-12 col-lg-12 col-sm-12">
+                    <span style="color: #bbc0c4; font-size: 10pt">Дата платежа</span>
+                    <h6>{{t['buy_time']|datetimeformat('%H:%M %d.%m.%Y')}}</h6>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-print-none">
+    <div class="form-row align-items-center mt-3 justify-content-center ">
+        <button class="btn btn-dark" onclick="open_ticket_print({{t['ticket_id']}});">Печать!</button>
+    </div>
+</div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}

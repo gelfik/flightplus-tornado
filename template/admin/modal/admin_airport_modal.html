@@ -1,0 +1,120 @@
+<div class="modal fade" id="AdminCountryAddModal" tabindex="-1" role="dialog" aria-labelledby="AdminCountryAddTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AdminCountryAddTitle">Добавление новой страны</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="col-xs-12 col-lg-6">
+                        <label for="country_name">Страна</label>
+                        <input type="text" class="form-control" id="country_name" name="country_name" required>
+                    </div>
+                    <div class="col-xs-12 col-lg-6">
+                        <label for="country_abbreviation">Аббревиатура</label>
+                        <input type="text" class="form-control" id="country_abbreviation" name="country_abbreviation"
+                               required>
+                    </div>
+                </div>
+                <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+                    <button class="btn btn-dark" type="button" onClick="apiv1_addcountry();">Добавление</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if arguments.country_list is defined %}
+<div class="modal fade" id="AdminCityAddModal" tabindex="-1" role="dialog" aria-labelledby="AdminCityAddTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AdminCityAddTitle">Добавление нового город</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="col-xs-12 col-lg-12">
+                        <label for="city_country_select">Страна</label>
+                        <select class="form-control" size="1" id="city_country_select" name="city_country_select" required>
+                            {% for item in arguments.country_list %}
+                            <option value="{{item['id']}}">{{item['country_name']}} [{{item['abbreviation']}}]</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    </div>
+                <div class="form-row">
+                    <div class="col-xs-12 col-lg-6">
+                        <label for="city_name">Город</label>
+                        <input type="text" class="form-control" id="city_name" name="city_name" required>
+                    </div>
+                    <div class="col-xs-12 col-lg-6">
+                        <label for="city_abbreviation">Аббревиатура</label>
+                        <input type="text" class="form-control" id="city_abbreviation" name="city_abbreviation" required>
+                    </div>
+                </div>
+                <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+                    <button class="btn btn-dark" type="button" onClick="apiv1_addcity();">Добавление</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+{% if arguments.city_list is defined and arguments.country_list is defined %}
+<div class="modal fade" id="AdminAirportAddModal" tabindex="-1" role="dialog" aria-labelledby="AdminAirportAddTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AdminAirportAddTitle">Добавление нового аэропорта</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="col-xs-12 col-lg-6">
+                        <label for="airport_country_select">Страна</label>
+                        <select class="form-control" size="1" id="airport_country_select" name="airport_country_select" onchange="getcitylist_add();" required>
+                            {% for item in arguments.country_list %}
+                            <option value="{{item['id']}}">{{item['country_name']}} [{{item['abbreviation']}}]</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-lg-6">
+                        <label for="airport_city_select">Город</label>
+                        <select class="form-control" size="1" id="airport_city_select" name="airport_city_select" required>
+                            {% for item in arguments.city_list %}
+                            {% if arguments.country_list[0]['id']==item['id_country']%}
+                            <option value="{{item['id']}}">{{item['city_name']}}</option>
+                            {% endif %}
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-lg-6">
+                        <label for="airport_name">Аэропорт</label>
+                        <input type="text" class="form-control" id="airport_name" name="airport_name" required>
+                    </div>
+                    <div class="col-xs-12 col-lg-6">
+                        <label for="airport_abbreviation">Аббревиатура</label>
+                        <input type="text" class="form-control" id="airport_abbreviation" name="airport_abbreviation" required>
+                    </div>
+                </div>
+                <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+                    <button class="btn btn-dark" type="button" onClick="apiv1_addairport();">Добавление</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}

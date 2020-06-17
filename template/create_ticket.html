@@ -1,0 +1,158 @@
+{% extends "index.html" %}
+{% block content %}
+{% if arguments.user_inf is defined %}
+{% if arguments.route is defined %}
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 20px; margin-bottom: 20px;  border-color:#cecfd3; position:relative">
+    <div class="row align-items-center mobile-col" style="margin: 10px">
+        <div class="col-xs-12 col-lg-6">
+            <div class="row">
+                <div class="col-xs-12 col-lg-6">
+                    <h6 style="color: #bbc0c4">Откуда</h6>
+                    <h5>{{ arguments.route['city_from'] }},{{ arguments.route['airport_from'] }} ({{
+                        arguments.route['airport_from_abbr'] }})</h5>
+                </div>
+                <div class="col-xs-12 col-lg-6">
+                    <h6 style="color: #bbc0c4">Вылет</h6>
+                    <h5>{{ arguments.route['route_departure_date']|datetimeformat('%H:%M %d.%m.%Y') }}</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-lg-6">
+                    <h6 style="color: #bbc0c4">Куда</h6>
+                    <h5>{{ arguments.route['city_to'] }},{{ arguments.route['airport_to'] }} ({{
+                        arguments.route['airport_to_abbr'] }})</h5>
+                </div>
+                <div class="col-xs-12 col-lg-6">
+                    <h6 style="color: #bbc0c4">Прилет</h6>
+                    <h5>{{ arguments.route['route_arrival_date']|datetimeformat('%H:%M %d.%m.%Y') }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-lg-6">
+            <div class="row">
+                <div class="col-xs-12 col-lg-6">
+                    <h6 style="color: #bbc0c4">Рейс</h6>
+                    <h5>{{ arguments.route['airplane_num'] }} - {{ arguments.route['airplane_name'] }}</h5>
+                </div>
+                <div class="col-xs-12 col-lg-6">
+                    <h6 style="color: #bbc0c4">Время в пути</h6>
+                    {% set travel_time =
+                    arguments.route['route_arrival_date']-arguments.route['route_departure_date']%}
+                    <h5>{{ travel_time|hoursetime }}ч.</h5>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-lg-6">
+                    <h6 style="color: #bbc0c4">Цена</h6>
+                    <h5 id="route_price">{{ arguments.route['route_price'] }}р.</h5>
+                </div>
+                <div class="col-xs-12 col-lg-6">
+                    <h6 style="color: #bbc0c4">Осталось мест</h6>
+                    <h5 id="place_count">{{ arguments.route['place_count'] }}</h5>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-lg-12">
+            <img src="{{ arguments.route['airplane_seats_scheme'] }}" class="img-fluid">
+        </div>
+    </div>
+</div>
+
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 20px; margin-bottom: 20px;  border-color:#cecfd3; position:relative">
+    {% if arguments.passenger_inf is defined %}
+    <form enctype="multipart/form-data" method="POST" action="/buy_ticket">
+        <div id="passenger">
+            <input name="route_id" id="route_id" value="{{ arguments.route['route_id'] }}"
+                   style="display:none; visibility: hidden">
+            <div class="passanger_add">
+                <div class="row align-items-center mobile-col" style="margin: 10px">
+                    <div class="col-xs-12 col-lg-10">
+                        <h6 style="color: #bbc0c4">Пассажир</h6>
+                        <select class="form-control passenger_select" size="1" name="passenger" onchange="change_passenger_id(this);" required>
+                            {% for item in arguments.passenger_inf %}
+                            <option value="{{item['id']}}">{{item['first_name']}} {{item['last_name']}}
+                                {{item['patronymic']}} | {{item['birthday']}} | Номер документа:
+                                {{item['document_number']}}
+                            </option>
+                            {% endfor %}
+                        </select>
+                        <input name="passenger_id" value="{{arguments.passenger_inf[0]['id']}}" style="display:none; visibility: hidden">
+                    </div>
+                    <div class="col-xs-12 col-lg-2">
+                        <h6 style="color: #bbc0c4">Место</h6>
+                        <select class="form-control passenger_select_place" size="1" name="places" onchange="change_places_id(this);" required>
+                            {% for item in arguments.places %}
+                            <option value="{{item['id']}}">{{item['place_number']}}</option>
+                            {% endfor %}
+                        </select>
+                        <input name="places_id" value="{{arguments.places[0]['id']}}" style="display:none; visibility: hidden">
+                    </div>
+                </div>
+                <hr>
+            </div>
+        </div>
+        <div class="row align-items-center mobile-col" style="margin: 10px">
+            <div class="col-xs-12 col-lg-6" id="addpassanger">
+                <span class="material-icons" style="cursor: pointer;">Добавить еще одного пассажира</span>
+            </div>
+            <div class="col-xs-12 col-lg-6" id="delpassanger">
+                <span class="material-icons" style="cursor: pointer;">Удалить последнего добавленного пассажира</span>
+            </div>
+            <div class="col-xs-12 col-lg-12">
+                <span class="material-icons" style="cursor: pointer;" data-toggle="modal"
+                      data-target="#AddPassengerModal"
+                      onclick="closenavbar();" id="addnewpassanger">Пассажир отсутствует в базе</span>
+            </div>
+        </div>
+        <div class="row align-items-center mobile-col" style="margin: 10px">
+            <div class="col-xs-12 col-lg-12" id="final_price">
+            </div>
+        </div>
+        <div class="form-row align-items-center mt-3 justify-content-center mobile-auth" style="margin: 10px"
+             id="accept_button">
+            <button class="btn btn-dark" type="button" onclick="check_passenger_inf()">Проверить данные и получить
+                итоговую цену
+            </button>
+        </div>
+    </form>
+</div>
+{% else %}
+<div class="row" style="justify-content: center; margin: 10px">
+    <h6>Пассажиры не найдены, для продолжения нужно добавить пассажира!</h6>
+</div>
+<hr>
+<div class="row align-items-center mobile-col" style="margin: 10px">
+    <button style="width:100%" class="btn btn-dark" data-toggle="modal" data-target="#AddPassengerModal"
+            onclick="closenavbar();">
+        Добавить пассажира!
+    </button>
+</div>
+{% endif %}
+</div>
+{% else %}
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 20px; margin-bottom: 20px;  border-color:#cecfd3; position:relative">
+    <div class="row" style="justify-content: center; margin: 10px">
+        <h6>Маршрут не найден, либо закончились места!</h6>
+    </div>
+</div>
+{% endif%}
+{% else %}
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 20px; margin-bottom: 20px;  border-color:#cecfd3; position:relative">
+    <div class="row" style="justify-content: center; margin: 10px">
+        <h6>Для продолженния покупки нужно авторизироватся в системе!</h6>
+    </div>
+    <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+        <button class="btn btn-dark" data-toggle="modal" data-target="#AuthModal" onclick="closenavbar();">Авторизация
+        </button>
+        <span> или </span>
+        <button class="btn btn-dark" data-toggle="modal" data-target="#RegModal" onclick="closenavbar();">Регистрация
+        </button>
+    </div>
+</div>
+{% endif%}
+{% include 'modal/passengeradd_modal.html' %}
+{% endblock %}

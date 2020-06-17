@@ -1,0 +1,173 @@
+create database flightplus;
+use flightplus;
+
+CREATE TABLE `auth_token` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `token` text DEFAULT NULL,
+  `id_user` int(11) DEFAULT 0,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `users_auth` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `password` text DEFAULT NULL,
+  `phone` text DEFAULT NULL,
+  `email` text DEFAULT NULL,
+  `user_name` text DEFAULT NULL,
+  `user_surname` text DEFAULT NULL,
+  `id_users_lvl` int(11) DEFAULT 0,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `user_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `last_name` text DEFAULT NULL,
+  `first_name` text DEFAULT NULL,
+  `patronymic` text DEFAULT NULL,
+  `birthday` date DEFAULT NULL,
+  `phone` text DEFAULT NULL,
+  `email` text DEFAULT NULL,
+  `id_gender` int(11) DEFAULT 0,
+  `id_document_type` int(11) DEFAULT 0,
+  `document_number` text DEFAULT NULL,
+  `valid_date` date DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `users_lvl` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `lvl_name` text DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `user_data_gender` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `gender_name` text DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `user_data_document_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `document_type` text DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `users_auth_user_data` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) DEFAULT 0,
+  `id_user_data` int(11) DEFAULT 0,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `user_data_docyment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `document_number` text DEFAULT NULL,
+  `valid_date` int(11) DEFAULT 0,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `airplane` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `airplane_name` text DEFAULT NULL,
+  `airplane_num` text DEFAULT NULL,
+  `status` int(11) DEFAULT 0,
+  `row_of_seats` int(11) DEFAULT 0,
+  `column_of_seats` int(11) DEFAULT 0,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `airplane_stataus` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` text DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `airports` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_country` int(11) DEFAULT 0,
+  `id_ciry` int(11) DEFAULT 0,
+  `airport_name` text DEFAULT NULL,
+  `abbreviation` text DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `cities` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_country` int(11) DEFAULT 0,
+  `city_name` text DEFAULT NULL,
+  `abbreviation` text DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `countries` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `country_name` text DEFAULT NULL,
+  `abbreviation` text DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `places` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_route` int(11) DEFAULT 0,
+  `place_number` text DEFAULT NULL,
+  `place_status` int(11) DEFAULT 0,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `route` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_airport_where_from` int(11) DEFAULT 0,
+  `id_airport_where_to` int(11) DEFAULT 0,
+  `departure_date` int(11) DEFAULT 0,
+  `arrival_date` int(11) DEFAULT 0,
+  `id_airplane` int(11) DEFAULT 0,
+  `price` int(11) DEFAULT 0,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `ticket` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user_data` int(11) DEFAULT 0,
+  `id_ticket_age_type` int(11) DEFAULT 0,
+  `id_route` int(11) DEFAULT 0,
+  `id_places` int(11) DEFAULT 0,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `ticket_age_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `ticket_age_type_name` text DEFAULT NULL,
+  `ticket_age_type_coefficient` int(11) DEFAULT 0,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+CREATE TABLE `classes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `class_name` text DEFAULT NULL,
+  `coefficient` int(11) DEFAULT 0,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `airplane_classes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_airplane` varchar(0) DEFAULT NULL,
+  `id_airplane_class` varchar(0) DEFAULT NULL,
+  `count_of_seats` varchar(0) DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `route_classes` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_route` varchar(0) DEFAULT NULL,
+  `id_airplane_class` varchar(0) DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `route_places` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_airplane_places_list` varchar(0) DEFAULT NULL,
+  `id_route` varchar(0) DEFAULT NULL,
+  `id_places` varchar(0) DEFAULT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

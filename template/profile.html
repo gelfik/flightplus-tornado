@@ -1,0 +1,59 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 15px; margin-bottom: 15px; border-color:#cecfd3; position:relative">
+    {% if arguments.user_inf is defined %}
+    <form style="margin:15px;" method="post">
+        {% if arguments.user_inf['id_users_lvl']>0 %}
+        <div class="form-row">
+            <div class="col-xs-12 col-lg-12">
+                <label for="lvl_name">Должность:</label>
+                <input type="text" class="form-control" id="lvl_name" name="lvl_name"
+                       value="{{ arguments.user_inf['lvl_name'] }}" readonly>
+            </div>
+        </div>
+        <hr>
+        {% endif %}
+        <div class="form-row">
+            <div class="col-xs-12 col-lg-6">
+                <label for="user_name">Имя:</label>
+                <input type="text" class="form-control" id="user_name" name="user_name"
+                       value="{{ arguments.user_inf['user_name'] }}" readonly>
+            </div>
+            <div class="col-xs-12 col-lg-6">
+                <label for="user_surname">Фамилия:</label>
+                <input type="text" class="form-control" id="user_surname" name="user_surname"
+                       value="{{ arguments.user_inf['user_surname'] }}" readonly>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-xs-12 col-lg-6">
+                <label for="phone">Телефон:</label>
+                <input type="phone" class="form-control" id="phone" name="phone" value="{{ arguments.user_inf['phone'] }}"
+                       readonly>
+            </div>
+            <div class="col-xs-12 col-lg-6">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ arguments.user_inf['email'] }}"
+                       readonly>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-xs-12 col-lg-6">
+                <label for="Password">Новый пароль:</label>
+                <input type="password" class="form-control" id="Password" name="password" required>
+            </div>
+            <div class="col-xs-12 col-lg-6">
+                <label for="ConfirmPassword">Подтверждение:</label>
+                <input type="password" class="form-control" id="ConfirmPassword" name="confirmpassword" required>
+            </div>
+        </div>
+        <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+            <button class="btn btn-dark" type="submit">Обновить</button>
+        </div>
+    </form>
+    {% else %}
+    Не Авторизирован
+    {% endif %}
+</div>
+{% endblock %}

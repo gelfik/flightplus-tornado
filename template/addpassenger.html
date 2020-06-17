@@ -1,0 +1,77 @@
+{% extends "index.html" %}
+{% block content %}
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 15px; margin-bottom: 15px; border-color:#cecfd3; position:relative">
+    {% if arguments.user_inf is defined %}
+    <form style="margin:15px;" method="post" >
+        {% if arguments.error is defined %}
+        <span style="color: red">{{ arguments.error }}</span><br>
+        {% endif %}
+        <div class="form-row">
+            <div class="col-xs-12 col-lg-4">
+                <label for="First_name">Фамилия*:</label>
+                <input type="text" class="form-control" id="First_name" name="first_name" required>
+            </div>
+            <div class="col-xs-12 col-lg-4">
+                <label for="Last_name">Имя*:</label>
+                <input type="text" class="form-control" id="Last_name" name="last_name" required>
+            </div>
+            <div class="col-xs-12 col-lg-4">
+                <label for="Patranomic">Отчество:</label>
+                <input type="text" class="form-control" id="Patranomic" name="patronymic">
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-xs-12 col-lg-6">
+                <label for="Gender">Пол*:</label>
+                <!--<input type="date" class="form-control" id="Birthday" name="birthday" required>-->
+                <select class="form-control" size="1" id="Gender" name="id_gender" required>
+                    <option value="1">Мужской</option>
+                    <option value="2">Женский</option>
+                </select>
+            </div>
+            <div class="col-xs-12 col-lg-6">
+                <label for="Birthday">Дата рождения*:</label>
+                <input type="date" class="form-control" id="Birthday" name="birthday" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-xs-12 col-lg-6">
+                <label for="Email">Email*:</label>
+                <input type="email" class="form-control" id="Email" name="email" required>
+
+            </div>
+            <div class="col-xs-12 col-lg-6">
+                <label for="Phone">Телефон*:</label>
+                <input type="text" class="form-control" id="Phone" name="phone"
+                       pattern="\+7\s?[\(]{0,1}9[0-9]{2}[\)]{0,1}\s?\d{3}[-]{0,1}\d{2}[-]{0,1}\d{2}" required>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-xs-12 col-lg-4">
+                <label for="DocumentType">Тип документа*:</label>
+                <!--<input type="date" class="form-control" id="Birthday" name="birthday" required>-->
+                <select class="form-control" size="1" id="DocumentType" name="id_document_type" required>
+                    {% for item in arguments.documet_type %}
+                    <option value="{{item['id']}}">{{item['document_type']}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-xs-12 col-lg-4">
+                <label for="DocumentNumber">Серия и номер документа*:</label>
+                <input type="text" class="form-control" id="DocumentNumber" name="document_number" required>
+            </div>
+            <div class="col-xs-12 col-lg-4">
+                <label for="ValidDate">Дата действия*:</label>
+                <input type="date" class="form-control" id="ValidDate" name="valid_date">
+            </div>
+        </div>
+        <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+            <button class="btn btn-dark" type="submit">Добавить</button>
+        </div>
+    </form>
+    {% else %}
+    Не Авторизирован
+    {% endif %}
+</div>
+{% endblock %}

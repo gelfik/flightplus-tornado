@@ -1,0 +1,140 @@
+{% extends "index.html" %}
+{% block content %}
+{% if arguments.search_arg is defined %}
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 20px; margin-bottom: 20px;  border-color:#cecfd3; position:relative">
+    <form name="search" action="/search" method="post" enctype="multipart/form-data">
+        <div class="row align-items-center mobile-col" style="margin: 10px">
+            <div class="col-xs-12 col-lg-4">
+                <h6>Пункт отправления</h6>
+                <input class="form-control" type="search" name="query_to" id="query_to" placeholder="Пункт отправления"
+                       value="{{arguments.search_arg['query_to']}}" autocomplete="off" required>
+                <ul class="dropdown-menu" id="search_result_to" style="width: 100%; overflow-x:hidden;"></ul>
+            </div>
+            <div class="col-xs-12 col-lg-4">
+                <h6>Пункт прибытия</h6>
+                <input class="form-control" type="search" name="query_from" id="query_from" placeholder="Пункт прибытия"
+                       value="{{arguments.search_arg['query_from']}}" autocomplete="off" required>
+                <ul class="dropdown-menu" id="search_result_from" style="width: 100%; overflow-x:hidden;"></ul>
+            </div>
+            <div class="col-xs-12 col-lg-2 mobile-div" style="padding: 0">
+                <h6>Дата вылета</h6>
+                <input class="form-control" type="date" name="date_to" id="date_to" placeholder="Дата вылета"
+                       value="{{arguments.search_arg['date_to']}}" min="{% now 'utc', '%Y-%m-%d' %}"
+                       autocomplete="off" required>
+            </div>
+            <div class="col-xs-12 col-lg-2 align-self-end mobile-button">
+                <button class="btn btn-dark" type="submit" formenctype="application/json">Найти маршрут</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% if arguments.answ is defined %}
+{% for item in arguments.answ %}
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 20px; margin-bottom: 20px;  border-color:#cecfd3; position:relative">
+    <div class="row align-items-center mobile-col" style="margin: 10px">
+        <form name="search_result" action="/" method="post" enctype="multipart/form-data">
+            <div class="row align-items-center mobile-col" style="margin: 10px">
+                <div class="col-xs-12 col-lg-3">
+                    <h6>Откуда</h6>
+                    <input class="form-control" type="text" name="from"
+                           placeholder="Откуда"
+                           value="{{ item['city_from'] }},{{ item['airport_from'] }} ({{ item['airport_from_abbr'] }})" disabled>
+                </div>
+                <div class="col-xs-12 col-lg-2">
+                    <h6>Вылет</h6>
+                    <input class="form-control" type="time" name="department_time"
+                           placeholder="Время вылета"
+                           value="{{ item['departure_date']|datetimeformat('%H:%M') }}" disabled>
+                </div>
+                <div class="col-xs-12 col-lg-3">
+                    <h6>Куда</h6>
+                    <input class="form-control" type="text" name="to"
+                           placeholder="Куда"
+                           value="{{ item['city_to'] }},{{ item['airport_to'] }} ({{ item['airport_to_abbr'] }})" disabled>
+                </div>
+                <div class="col-xs-12 col-lg-2">
+                    <h6>Прилет</h6>
+                    <input class="form-control" type="time" name="arrival_time"
+                           placeholder="Время прилета"
+                           value="{{ item['arrival_date']|datetimeformat('%H:%M') }}" disabled>
+                </div>
+                <div class="col-xs-12 col-lg-2">
+                    <h6>Дата вылета</h6>
+                    <input class="form-control" type="date" name="date_to" placeholder="Дата вылета"
+                           value="{{ item['departure_date']|datetimeformat('%Y-%m-%d') }}" disabled>
+                </div>
+                <div class="col-xs-12 col-lg-4">
+                    <h6>Рейс</h6>
+                    <input class="form-control" type="text" name="flight" value="{{ item['airplane_num'] }} - {{ item['airplane_name'] }}"
+                           placeholder="Рейс" disabled>
+                </div>
+                <div class="col-xs-12 col-lg-2">
+                    <h6>Время в пути</h6>
+                    {% set travel_time = item['arrival_date']-item['departure_date']-10800%}
+                    <input class="form-control" type="time" name="travel_time"
+                           placeholder="Время в пути"
+                           value="{{ travel_time|datetimeformat('%H:%M') }}" disabled>
+                </div>
+                <div class="col-xs-12 col-lg-2">
+                    <h6>Цена</h6>
+                    <input class="form-control" type="text" name="price"
+                           placeholder="Цена"
+                           value="{{ item['price'] }}р." disabled>
+                </div>
+                <div class="col-xs-12 col-lg-2">
+                    <h6>Осталось мест</h6>
+                    <input class="form-control" type="text" name="place_count"
+                           placeholder="Места"
+                           value="{{ item['place_count'] }}" disabled>
+                </div>
+                <div class="col-xs-12 col-lg-2 align-self-end mobile-button">
+                    <button class="btn btn-dark" type="submit" style="width: 100%">Выбрать рейс</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 20px; margin-bottom: 20px;  border-color:#cecfd3; position:relative">
+    <div class="row align-items-center mobile-col" style="margin: 10px">
+        <h6>К сожалению, мы не нашли билеты из <big>{{arguments.search_arg['query_to']}}</big> в
+            <big>{{arguments.search_arg['query_from']}}</big>.
+            <br>Возможно, есть билеты на другие дни</h6>
+    </div>
+</div>
+{% endif%}
+{% else %}
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 20px; margin-bottom: 20px;  border-color:#cecfd3; position:relative">
+    <form name="search" action="/search" method="post" enctype="multipart/form-data">
+        <div class="row align-items-center mobile-col" style="margin: 10px">
+            <div class="col-xs-12 col-lg-4">
+                <h6>Пункт отправления</h6>
+                <input class="form-control" type="search" name="query_to" id="query_to" placeholder="Пункт отправления"
+                       value="" autocomplete="off" required>
+                <ul class="dropdown-menu" id="search_result_to" style="width: 100%; overflow-x:hidden;"></ul>
+            </div>
+            <div class="col-xs-12 col-lg-4">
+                <h6>Пункт прибытия</h6>
+                <input class="form-control" type="search" name="query_from" id="query_from" placeholder="Пункт прибытия"
+                       value="" autocomplete="off" required>
+                <ul class="dropdown-menu" id="search_result_from" style="width: 100%; overflow-x:hidden;"></ul>
+            </div>
+            <div class="col-xs-12 col-lg-2 mobile-div" style="padding: 0">
+                <h6>Дата вылета</h6>
+                <input class="form-control" type="date" name="date_to" id="date_to" placeholder="Дата вылета"
+                       value="{% now 'utc', '%Y-%m-%d' %}"
+                       autocomplete="off" min="{% now 'utc', '%Y-%m-%d' %}" required>
+            </div>
+            <div class="col-xs-12 col-lg-2 align-self-end mobile-button">
+                <button class="btn btn-dark" type="submit">Найти маршрут</button>
+            </div>
+        </div>
+    </form>
+</div>
+{% endif%}
+{% endblock %}

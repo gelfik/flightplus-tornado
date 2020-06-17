@@ -1,0 +1,89 @@
+<div class="modal fade" id="AdminAirplaneAddModal" tabindex="-1" role="dialog" aria-labelledby="AdminAirplaneAddTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AdminAirplaneAddTitle">Добавление нового самолета</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="col-xs-12 col-lg-6">
+                        <label for="airplane_num">Номер самолета</label>
+                        <input type="text" class="form-control" id="airplane_num" name="airplane_num" required>
+                    </div>
+                    <div class="col-xs-12 col-lg-6">
+                        <label for="airplane_name">Название</label>
+                        <input type="text" class="form-control" id="airplane_name" name="airplane_name" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-xs-12 col-lg-6">
+                        <label for="column_of_seats">Количество рядов:</label>
+                        <div class="stepper stepper--style-2 js-spinner">
+                            <input autofocus type="number" min="1" max="100" step="1" value="1" id="column_of_seats" name="column_of_seats" class="form-control stepper__input" required>
+                            <div class="stepper__controls">
+                                <button type="button" spinner-button="up">+</button>
+                                <button type="button" spinner-button="down">−</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-lg-6">
+                        <label for="row_of_seats">Количество мест в ряду:</label>
+                        <div class="stepper stepper--style-2 js-spinner">
+                            <input autofocus type="number" min="1" max="100" step="1" value="1" id="row_of_seats" name="row_of_seats" class="form-control stepper__input" required>
+                            <div class="stepper__controls">
+                                <button type="button" spinner-button="up">+</button>
+                                <button type="button" spinner-button="down">−</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-xs-12 col-lg-6">
+                        <label for="status">Статус:</label>
+                        <select class="form-control" size="1" id="status" name="status" required>
+                            {% for item in arguments.airplane_status %}
+                            <option value="{{item['id']}}">{{item['status_name']}}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-xs-12 col-lg-6">
+                        <form id="load_pic">
+                            <label for="seats_scheme">Схема расположения мест:</label>
+                            <input class="form-control-file" type="file" id="seats_scheme" name="seats_scheme"
+                                   accept="image/jpeg,image/png"
+                                   required>
+                        </form>
+                    </div>
+                </div>
+                <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+                    <button class="btn btn-dark" type="button" onClick="apiv1_addairlaine();">Добавление</button>
+                    <!--<span class="m-2">или</span>-->
+                    <!--<button class="btn btn-dark" type="button" data-toggle="modal" data-target="#RegModal" onclick="$('#AuthModal').modal('hide')">Создать аккаунт-->
+                    <!--</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="AdminAirplaneEditModal" tabindex="-1" role="dialog" aria-labelledby="AdminAirplaneEditTitle"
+     aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="AdminAirplaneEditTitle">Редактирование данных</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="AdminAirplaneEditModalBody">
+
+            </div>
+        </div>
+    </div>
+</div>

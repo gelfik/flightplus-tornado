@@ -1,0 +1,134 @@
+{% extends "index.html" %}
+{% block content %}
+{% if arguments.user_inf is defined %}
+{% if arguments.passenger_inf is defined %}
+<div style="margin:20px;">
+    <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+        <button style="width:100%" class="btn btn-dark" data-toggle="modal" data-target="#AddPassengerModal"
+                onclick="closenavbar();">
+            Добавить пассажира!
+        </button>
+    </div>
+</div>
+{% set passengernumber = namespace(value=1) %}
+{% for item in arguments.passenger_inf%}
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 15px; margin-bottom: 15px; border-color:#cecfd3; position:relative">
+    <div style="margin:15px;">
+        <div class="form-row">
+            <div class="col">
+                <h3>Пассажир №{{ passengernumber.value }}</h3>
+                {% set passengernumber.value = passengernumber.value + 1 %}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-xs-12 col-lg-4">
+                <label for="first_name{{ item['id'] }}">Фамилия:</label>
+                <input type="text" class="form-control" id="first_name{{ item['id'] }}"
+                       name="first_name{{ item['id'] }}"
+                       value="{{ item['first_name'] }}"
+                       readonly>
+            </div>
+            <div class="col-xs-12 col-lg-4">
+                <label for="last_name{{ item['id'] }}">Имя:</label>
+                <input type="text" class="form-control" id="last_name{{ item['id'] }}"
+                       name="text{{ item['id'] }}" value="{{ item['last_name'] }}"
+                       readonly>
+            </div>
+            <div class="col-xs-12 col-lg-4">
+                <label for="patronymic{{ item['id'] }}">Отчество:</label>
+                <input type="patronymic" class="form-control" id="patronymic{{ item['id'] }}"
+                       name="text{{ item['id'] }}" value="{{ item['patronymic'] }}"
+                       readonly>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col-xs-12 col-lg-6">
+                <label for="gender_name{{ item['id'] }}">Пол:</label>
+                <input type="gender_name" class="form-control" id="gender_name{{ item['id'] }}"
+                       name="text{{ item['id'] }}" value="{{ item['gender_name'] }}"
+                       readonly>
+            </div>
+            <div class="col-xs-12 col-lg-6">
+                <label for="birthday{{ item['birthday'] }}">Дата рождения:</label>
+                <input type="text" class="form-control" id="birthday{{ item['birthday'] }}"
+                       name="birthday{{ item['birthday'] }}"
+                       value="{{ item['birthday'] }}"
+                       readonly>
+            </div>
+        </div>
+        <hr>
+        <div class="form-row">
+            <div class="col-xs-12 col-lg-4">
+                <label for="document_type{{ item['id'] }}">Вид документа:</label>
+                <input type="text" class="form-control" id="document_type{{ item['id'] }}"
+                       name="document_type{{ item['id'] }}"
+                       value="{{ item['document_type'] }}"
+                       readonly>
+            </div>
+            <div class="col-xs-12 col-lg-4">
+                <label for="document_number{{ item['id'] }}">Номер документа:</label>
+                <input type="text" class="form-control" id="document_number{{ item['id'] }}"
+                       name="document_number{{ item['id'] }}"
+                       value="{{ item['document_number'] }}"
+                       readonly>
+            </div>
+            <div class="col-xs-12 col-lg-4">
+                <label for="valid_date{{ item['id'] }}">Дата действия:</label>
+                <input type="text" class="form-control" id="valid_date{{ item['id'] }}"
+                       name="valid_date{{ item['id'] }}"
+                       value="{{ item['valid_date'] }}"
+                       readonly>
+            </div>
+        </div>
+        <hr>
+        <div class="form-row">
+            <div class="col-xs-12 col-lg-6">
+                <label for="phone{{ item['id'] }}">Телефон:</label>
+                <input type="phone" class="form-control" id="phone{{ item['id'] }}" name="phone{{ item['id'] }}"
+                       value="{{ item['phone'] }}"
+                       readonly>
+            </div>
+            <div class="col-xs-12 col-lg-6">
+                <label for="email{{ item['id'] }}">Email:</label>
+                <input type="email" class="form-control" id="email{{ item['id'] }}" name="email{{ item['id'] }}"
+                       value="{{ item['email'] }}"
+                       readonly>
+            </div>
+        </div>
+        <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+            <button class="btn btn-dark" type="button" onClick="apiv1_delPassenger({{item['id']}});">Удалить
+                пассажира!
+            </button>
+        </div>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin: 15px 10%;  border-color:#cecfd3; position:relative">
+    <div style="margin:15px;">
+        <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+            <h3>Пассажиры не найдены!</h3>
+        </div>
+        <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+            <button class="btn btn-dark" data-toggle="modal" data-target="#AddPassengerModal"
+                    onclick="closenavbar();">
+                Добавить пассажира!
+            </button>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% include 'modal/passengeradd_modal.html' %}
+{% else %}
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin: 15px 10%;  border-color:#cecfd3; position:relative">
+    <div style="margin:15px;">
+        <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+            <h3>Не Авторизирован!</h3>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

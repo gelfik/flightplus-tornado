@@ -1,0 +1,44 @@
+<div class="form-row">
+    <div class="col-xs-12 col-lg-6">
+        <label for="airplane_num_edit">Номер самолета</label>
+        <input type="text" class="form-control" id="airplane_num_edit" name="airplane_num_edit"
+               value="{{arguments.airplane_inf['airplane_num']}}" required>
+    </div>
+    <div class="col-xs-12 col-lg-6">
+        <label for="airplane_name_edit">Название</label>
+        <input type="text" class="form-control" id="airplane_name_edit" name="airplane_name_edit"
+               value="{{arguments.airplane_inf['airplane_name']}}" required>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-xs-12 col-lg-6">
+        <label for="column_of_seats_edit">Количество рядов:</label>
+        <input type="number" class="form-control" id="column_of_seats_edit" name="column_of_seats_edit" min="1"
+               step="1" value="{{arguments.airplane_inf['column_of_seats']}}" required>
+    </div>
+    <div class="col-xs-12 col-lg-6">
+        <label for="row_of_seats_edit">Количество мест в ряду:</label>
+        <input type="number" class="form-control" id="row_of_seats_edit" name="row_of_seats_edit" min="1" step="1"
+               value="{{arguments.airplane_inf['row_of_seats']}}" required>
+    </div>
+</div>
+<div class="form-row">
+    <div class="col-xs-12 col-lg-12">
+        <label for="status_edit">Статус:</label>
+        <select class="form-control" size="1" id="status_edit" name="status_edit" required>
+            {% for item in arguments.airplane_status %}
+            {% if item['id'] == arguments.airplane_inf['status']%}
+            <option value="{{item['id']}}" selected>{{item['status_name']}}</option>
+            {% else %}
+            <option value="{{item['id']}}">{{item['status_name']}}</option>
+            {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+</div>
+<div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+    <button class="btn btn-dark" type="button" onClick="apiv1_posteditairlaine({{arguments.airplane_inf['id']}});">
+        Принять изменения
+    </button>
+</div>
+<!-- {% now 'utc', '%H%M%S.%f' %} -->

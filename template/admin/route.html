@@ -1,0 +1,66 @@
+{% extends "index.html" %}
+{% block content %}
+{% if arguments.user_inf is defined %}
+<div style="margin:20px;">
+    <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+        <button style="width:100%" class="btn btn-dark" data-toggle="modal" data-target="#AdminRouteAddModal"
+                onclick="closenavbar();">
+            Добавить маршрут!
+        </button>
+    </div>
+</div>
+
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 15px; margin-bottom: 15px; border-color:#cecfd3; position:relative">
+    <div style="margin: 15px">
+        {% if arguments.route_list is defined %}
+        <div class="table-responsive">
+            <table class="table table-striped align-items-center table-flush">
+                <thead class="thead-dark">
+                <tr>
+                    {% set row = namespace(value=1) %}
+                    <th class="text-center" scope="col">#</th>
+                    <th scope="col">Откуда</th>
+                    <th scope="col">Куда</th>
+                    <th scope="col">Время отпр.</th>
+                    <th scope="col">Время прибыт.</th>
+                    <th scope="col">Самолет</th>
+                    <th scope="col">Мест в самолете</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in arguments.route_list %}
+                <tr id="route_{{item['id']}}">
+                    <th class="text-center" scope="row">{{ row.value }}</th>
+                    {% set row.value = row.value + 1 %}
+                    <td>{{item['country_from']}}, {{item['city_from']}}<br>{{item['airport_from']}}[{{item['airport_from_abbr']}}]
+                    </td>
+                    <td>{{item['country_to']}}, {{item['city_to']}}<br>{{item['airport_to']}}[{{item['airport_to_abbr']}}]
+                    </td>
+                    <td>{{ item['departure_date']|datetimeformat }}</td>
+                    <td>{{ item['arrival_date']|datetimeformat }}</td>
+                    <td>{{item['airplane_name']}} [{{item['airplane_num']}}]</td>
+                    <td>{{item['row_of_seats']*item['column_of_seats']}}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+            <h3>Маршруты не найдены!</h3>
+        </div>
+        <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+            <button class="btn btn-dark" data-toggle="modal" data-target="#AdminRouteAddModal"
+                    onclick="closenavbar();">
+                Добавить маршрут!
+            </button>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% include 'admin/modal/admin_route_mobal.html' %}
+{% else %}
+Не Авторизирован
+{% endif %}
+{% endblock %}

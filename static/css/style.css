@@ -1,0 +1,171 @@
+.vl {
+    border-right: 4px solid black;
+    height: 100%;
+}
+
+
+.-title {
+    text-transform: uppercase;
+    font-weight: bold;
+    margin-bottom: 12px;
+    color: #bbc0c4;
+    line-height: 1.30769231;
+    max-width: 230px;
+    padding-top: 15px;
+}
+
+.-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.-item {
+    padding-bottom: 0;
+}
+
+.-link {
+    color: #848d95;
+    padding: 4px 0;
+    line-height: 1.30769231;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.sticky {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    transition: all .3s ease;
+}
+
+.header.out {
+    transform: translateY(-100%);
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex: 1 0 auto;
+}
+
+.footer {
+    flex-shrink: 0;
+}
+
+.no-gutters {
+    margin-right: 0;
+    margin-left: 0;
+}
+
+
+@media (min-width: 768px) {
+    .dropdown-menu {
+        margin-top: 0;
+    / / fixes closing on slow mouse transition
+    }
+}
+
+.mobile {
+    display: none;
+}
+
+
+@media screen and (max-width: 540px) {
+    .mobile {
+        display: flex;
+    }
+
+    .mobile-auth button {
+        width: 100%;
+    }
+
+    .mobile-auth span {
+        display: none;
+    }
+
+    .mobile-auth button:first-child {
+        margin-bottom: 15px;
+    }
+
+    .mobile-button button {
+        width: 100%;
+        margin-top: -10px;
+    }
+
+    .mobile-col div {
+        margin-top: 15px;
+    }
+}
+
+.desktop {
+    display: none;
+}
+
+@media screen and (min-width: 540px) {
+    .desktop {
+        display: flex;
+    }
+}
+
+#toast-container {
+    position: sticky;
+    z-index: 1055;
+    top: 0
+}
+
+#toast-wrapper {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 5px
+}
+
+#toast-container > #toast-wrapper > .toast {
+    min-width: 150px
+}
+
+#toast-container > #toast-wrapper > .toast > .toast-header strong {
+    padding-right: 20px
+}
+
+/*@media screen and (max-width: 36rem) {*/
+/*#footer {*/
+/*background-color: red;*/
+/*}*/
+/*}*/
+
+input[type=text]::-ms-clear {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+input[type=text]::-ms-reveal {
+    display: none;
+    width: 0;
+    height: 0;
+}
+
+input[type="search"]::-webkit-search-decoration,
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-results-button,
+input[type="search"]::-webkit-search-results-decoration {
+    display: none;
+}
+
+
+

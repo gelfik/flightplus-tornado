@@ -1,0 +1,110 @@
+{% extends "index.html" %}
+{% block content %}
+{% if user_inf is defined %}
+<div style="margin:20px;">
+    <div class="form-row">
+        {% if country_list is defined and city_list is defined %}
+        <div class="col-xs-12 col-lg-4">
+            <button style="width:100%" class="btn btn-dark" data-toggle="modal" data-target="#AdminCountryAddModal"
+                    onclick="closenavbar();">
+                Добавить страну!
+            </button>
+        </div>
+        <div class="col-xs-12 col-lg-4">
+            <button style="width:100%" class="btn btn-dark" data-toggle="modal" data-target="#AdminAirplaneAddModal"
+                    onclick="closenavbar();">
+                Добавить город!
+            </button>
+        </div>
+        <div class="col-xs-12 col-lg-4">
+            <button style="width:100%" class="btn btn-dark" data-toggle="modal" data-target="#AdminAirplaneAddModal"
+                    onclick="closenavbar();">
+                Добавить аэропорт!
+            </button>
+        </div>
+        {% elif country_list is defined %}
+        <div class="col-xs-12 col-lg-6">
+            <button style="width:100%" class="btn btn-dark" data-toggle="modal" data-target="#AdminCountryAddModal"
+                    onclick="closenavbar();">
+                Добавить страну!
+            </button>
+        </div>
+        <div class="col-xs-12 col-lg-6">
+            <button style="width:100%" class="btn btn-dark" data-toggle="modal" data-target="#AdminAirplaneAddModal"
+                    onclick="closenavbar();">
+                Добавить город!
+            </button>
+        </div>
+        {% else %}
+        <div class="col-xs-12 col-lg-12">
+            <button style="width:100%" class="btn btn-dark" data-toggle="modal" data-target="#AdminCountryAddModal"
+                    onclick="closenavbar();">
+                Добавить страну!
+            </button>
+        </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="bg-white border shadow"
+     style="border-radius: 20px 20px 20px 20px; margin-top: 15px; margin-bottom: 15px; border-color:#cecfd3; position:relative">
+    {% if country_list is defined and city_list is defined and airport_list is defined %}
+    <div class="form-row">
+        <div class="col-xs-12 col-lg-4">
+            <label for="country_select">Страна:</label>
+            <select class="form-control" size="1" id="country_select" name="country_select" required>
+                {% for item in country_list %}
+                <option value="{{item['id']}}">{{item['country_name']}} [{{item['abbreviation']}}]</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-xs-12 col-lg-4">
+
+        </div>
+        <div class="col-xs-12 col-lg-4">
+        </div>
+    </div>
+    {% elif country_list is defined and city_list is defined %}
+    <div class="form-row">
+        <div class="col-xs-12 col-lg-6">
+            <label for="country_select">Страна:</label>
+            <select class="form-control" size="1" id="country_select" name="country_select" required>
+                {% for item in country_list %}
+                <option value="{{item['id']}}">{{item['country_name']}} [{{item['abbreviation']}}]</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-xs-12 col-lg-6">
+
+        </div>
+    </div>
+    {% elif country_list is defined %}
+    <div class="form-row">
+        <div class="col-xs-12 col-lg-12">
+            <label for="country_select">Страна:</label>
+            <select class="form-control" size="1" id="country_select" name="country_select" required>
+                {% for item in country_list %}
+                <option value="{{item['id']}}">{{item['country_name']}} [{{item['abbreviation']}}]</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    {% else %}
+    <div style="margin:15px;">
+        <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+            <h3>Страны не найдены!</h3>
+        </div>
+        <div class="form-row align-items-center mt-3 justify-content-center mobile-auth">
+            <button class="btn btn-dark" data-toggle="modal" data-target="#AdminCountryAddModal"
+                    onclick="closenavbar();">
+                Добавить страну!
+            </button>
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% include 'admin/modal/admin_country_modal.html' %}
+{% else %}
+Не Авторизирован
+{% endif %}
+{% endblock %}
