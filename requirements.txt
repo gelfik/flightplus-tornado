@@ -1,6 +1,6 @@
 arrow==0.15.6
 chardet==2.3.0
-Jinja2==2.11.2
+Jinja2==2.11.3
 jinja2-time==0.2.0
 language-selector==0.1
 MarkupSafe==1.1.1
