@@ -9,7 +9,7 @@ pygobject==3.20.0
 PyMySQL==0.9.3
 python-apt==1.1.0b1+ubuntu0.16.4.8
 python-dateutil==2.8.1
-requests==2.20.0
+requests==2.31.0
 six==1.10.0
 ssh-import-id==5.5
 tornado==6.0.3
